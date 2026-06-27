@@ -1,0 +1,150 @@
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id               String         @id @default(uuid())
+  username         String         @unique
+  email            String         @unique
+  password         String
+  role             String         // ADMIN, PRODUCTION_MANAGER, SALES_TEAM, SUPERVISOR, QUALITY_INSPECTOR, WORKER
+  name             String
+  createdAt        DateTime       @default(now())
+  updatedAt        DateTime       @updatedAt
+  notifications    Notification[]
+  assignedOrders   Order[]        @relation("CarpenterOrders")
+  designedOrders   Order[]        @relation("DesignerOrders")
+  employeeProfile  Employee?
+}
+
+model Customer {
+  id        String   @id @default(uuid())
+  name      String
+  email     String?
+  phone     String
+  address   String
+  orders    Order[]
+  createdAt DateTime @default(now())
+}
+
+model Employee {
+  id           String   @id @default(uuid())
+  userId       String   @unique
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  department   String   // Carpentry, Finishing, Design, Quality, Dispatch
+  status       String   @default("ACTIVE") // ACTIVE, INACTIVE, LEAVE
+  attendance   String   @default("PRESENT") // PRESENT, ABSENT, LEAVE
+  productivity Float    @default(100.0) // Worker performance score (%)
+  createdAt    DateTime @default(now())
+}
+
+model Order {
+  id             String          @id @default(uuid())
+  orderNumber    String          @unique // e.g. SVS-2026-0001
+  customerId     String
+  customer       Customer        @relation(fields: [customerId], references: [id])
+  furnitureType  String          // e.g. Teak Wood Sofa, Dining Table, King Size Bed
+  category       String          // Living Room, Dining Room, Bedroom, Office
+  woodType       String          // Teak Wood, Rosewood, Mahogany, Plywood
+  dimensions     String          // e.g. 6ft x 3ft x 2.5ft
+  quantity       Int             @default(1)
+  designerId     String?
+  designer       User?           @relation("DesignerOrders", fields: [designerId], references: [id])
+  carpenterId    String?
+  carpenter      User?           @relation("CarpenterOrders", fields: [carpenterId], references: [id])
+  currentStage   String          @default("DESIGN_APPROVED") // DESIGN_APPROVED to DELIVERED
+  priority       String          @default("MEDIUM") // LOW, MEDIUM, HIGH, CRITICAL
+  notes          String?
+  attachments    String?         // JSON array of strings
+  invoice        String?         // JSON string or URL
+  deliveryDate   DateTime
+  estimatedCost  Float
+  finalCost      Float?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  workflowStages WorkflowStage[]
+  qcReport       QCReport?
+}
+
+model WorkflowStage {
+  id                 String    @id @default(uuid())
+  orderId            String
+  order              Order     @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  stageName          String    // DESIGN_APPROVED, MATERIAL_SOURCED, CARPENTRY, ASSEMBLY, FINISHING, POLISHING, QUALITY_CHECK, PACKAGING, READY_FOR_DISPATCH, DELIVERED
+  status             String    @default("PENDING") // PENDING, IN_PROGRESS, COMPLETED, DELAYED
+  assignedToId       String?   // User id
+  completionPercent  Float     @default(0.0)
+  startDate          DateTime?
+  endDate            DateTime?
+  comments           String?
+  photos             String?   // JSON array of photo filenames/paths
+  expectedCompletion DateTime?
+  delayIndicator     Boolean   @default(false)
+  updatedAt          DateTime  @updatedAt
+
+  @@unique([orderId, stageName])
+}
+
+model Inventory {
+  id             String    @id @default(uuid())
+  itemName       String    @unique
+  category       String    // Wood, Plywood, Hardware, Paint, Polish, Accessories
+  supplierId     String?
+  supplier       Supplier? @relation(fields: [supplierId], references: [id])
+  purchaseDate   DateTime?
+  cost           Float
+  currentStock   Float
+  minStockAlert  Float     @default(10.0)
+  unit           String    @default("pcs") // pcs, sqft, liters, kg
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model Supplier {
+  id             String      @id @default(uuid())
+  name           String
+  contactName    String?
+  phone          String
+  email          String?
+  address        String?
+  inventoryItems Inventory[]
+  createdAt      DateTime    @default(now())
+}
+
+model QCReport {
+  id            String   @id @default(uuid())
+  orderId       String   @unique
+  order         Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  status        String   // PASSED, FAILED
+  reason        String?
+  inspectorName String
+  remarks       String?
+  photos        String?  // JSON array of strings
+  createdAt     DateTime @default(now())
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String?
+  user      User?    @relation(fields: [userId], references: [id])
+  role      String?  // Target role for broadcast
+  title     String
+  message   String
+  type      String   // LATE_ORDER, LOW_INVENTORY, QC_FAILED, ORDER_COMPLETED, DISPATCH_READY, MATERIAL_ARRIVAL
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  userId     String?
+  userEmail  String?
+  action     String
+  details    String
+  createdAt  DateTime @default(now())
+}

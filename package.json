@@ -1,0 +1,16 @@
+{
+  "name": "furniture-production-workflow-tracker",
+  "version": "1.0.0",
+  "description": "Sri Venkata Sai Furniture Works Workflow Tracker",
+  "private": true,
+  "scripts": {
+    "backend:install": "cd backend && ..\\.node\\npm.cmd install",
+    "backend:dev": "cd backend && ..\\.node\\npm.cmd run dev",
+    "backend:build": "cd backend && ..\\.node\\npm.cmd run build",
+    "frontend:install": "cd frontend && ..\\.node\\npm.cmd install",
+    "frontend:dev": "cd frontend && ..\\.node\\npm.cmd run dev",
+    "frontend:build": "cd frontend && ..\\.node\\npm.cmd run build",
+    "install-all": "npm run backend:install && npm run frontend:install",
+    "dev": "powershell -Command \"Start-Process cmd -ArgumentList '/c, npm run backend:dev' -NoNewWindow; npm run frontend:dev\""
+  }
+}

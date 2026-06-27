@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    
+    /* Light Mode Colors */
+    --primary: 37 99 235;     /* #2563EB */
+    --secondary: 15 23 42;    /* #0F172A */
+    --accent: 245 158 11;     /* #F59E0B */
+    --success: 16 185 129;    /* #10B981 */
+    --danger: 239 68 68;      /* #EF4444 */
+    
+    --bg-app: 248 250 252;    /* #F8FAFC */
+    --bg-card: 255 255 255;   /* White */
+    --text-primary: 15 23 42;  /* Slate 900 */
+    --text-secondary: 71 85 105; /* Slate 600 */
+    --border: 226 232 240;    /* Slate 200 */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+    
+    --radius: 18px;
+  }
+
+  .dark {
+    /* Dark Mode Colors */
+    --bg-app: 11 17 32;       /* Slate 950 */
+    --bg-card: 15 23 42;      /* Slate 900 */
+    --text-primary: 241 245 249; /* Slate 100 */
+    --text-secondary: 148 163 184; /* Slate 400 */
+    --border: 30 41 59;       /* Slate 800 */
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.5);
+    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.5);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4);
+  }
+
+  body {
+    font-family: var(--font-sans);
+    background-color: rgb(var(--bg-app));
+    color: rgb(var(--text-primary));
+    transition: background-color 0.3s ease, color 0.3s ease;
+    overflow-x: hidden;
+  }
+}
+
+@layer components {
+  /* Premium Glassmorphism styling */
+  .glass-login {
+    background: rgba(255, 255, 255, 0.45);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+  }
+
+  .dark .glass-login {
+    background: rgba(15, 23, 42, 0.55);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .glass-card {
+    background: rgb(var(--bg-card));
+    border: 1px solid rgb(var(--border));
+    box-shadow: var(--shadow);
+    border-radius: var(--radius);
+    transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .glass-card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .btn-primary {
+    background-color: rgb(var(--primary));
+    color: white;
+    font-weight: 500;
+    padding: 0.625rem 1.25rem;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+  }
+  .btn-primary:hover {
+    background-color: rgba(var(--primary), 0.85);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(var(--primary), 0.25);
+  }
+
+  .badge-status {
+    padding: 0.25rem 0.625rem;
+    border-radius: 9999px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Custom styling for SAP / Monday / Notion style tables */
+  .enterprise-table th {
+    background-color: rgba(var(--secondary), 0.03);
+    color: rgb(var(--text-secondary));
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    padding: 0.875rem 1rem;
+    border-bottom: 2px solid rgb(var(--border));
+  }
+
+  .dark .enterprise-table th {
+    background-color: rgba(255, 255, 255, 0.02);
+  }
+
+  .enterprise-table td {
+    padding: 1rem;
+    border-bottom: 1px solid rgb(var(--border));
+    font-size: 0.875rem;
+  }
+
+  .enterprise-table tr:hover {
+    background-color: rgba(var(--primary), 0.02);
+  }
+
+  .dark .enterprise-table tr:hover {
+    background-color: rgba(255, 255, 255, 0.01);
+  }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(var(--text-secondary), 0.2);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(var(--text-secondary), 0.4);
+}
+
+/* Shimmer Loading Animations */
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.shimmer {
+  background: linear-gradient(90deg, 
+    rgba(var(--text-secondary), 0.06) 25%, 
+    rgba(var(--text-secondary), 0.15) 37%, 
+    rgba(var(--text-secondary), 0.06) 63%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.5s infinite;
+}

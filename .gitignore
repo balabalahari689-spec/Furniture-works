@@ -1,0 +1,31 @@
+# Dependency directories
+node_modules/
+backend/node_modules/
+frontend/node_modules/
+
+# Local Node/Git installation
+.node/
+
+# Environment files
+.env
+backend/.env
+frontend/.env
+
+# Database files
+*.db
+*.db-journal
+backend/prisma/dev.db
+
+# Build directories
+dist/
+backend/dist/
+frontend/dist/
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Temp folders
+tmp/
+temp/
+.gemini/
