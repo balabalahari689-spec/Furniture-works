@@ -42,7 +42,7 @@ export const CreateOrder: React.FC = () => {
   const fetchCustomers = async () => {
     if (!token) return;
     try {
-      const response = await fetch('http://localhost:5000/api/customers', {
+      const response = await fetch('${API_BASE_URL}/api/customers', {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (response.ok) {
@@ -72,7 +72,7 @@ export const CreateOrder: React.FC = () => {
 
     setIsCreatingCust(true);
     try {
-      const response = await fetch('http://localhost:5000/api/customers', {
+      const response = await fetch('${API_BASE_URL}/api/customers', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -117,7 +117,7 @@ export const CreateOrder: React.FC = () => {
     setError(null);
 
     try {
-      const response = await fetch('http://localhost:5000/api/orders', {
+      const response = await fetch('${API_BASE_URL}/api/orders', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

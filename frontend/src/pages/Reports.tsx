@@ -45,7 +45,7 @@ export const Reports: React.FC = () => {
     if (!token) return;
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:5000/api/reports?type=${reportType}&range=${reportRange}`, {
+      const response = await fetch(`${API_BASE_URL}/api/reports?type=${reportType}&range=${reportRange}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (response.ok) {

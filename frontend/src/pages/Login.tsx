@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import { Shield, Lock, Mail, User, Briefcase, Loader2, ArrowRight } from 'lucide-react';
+import { API_BASE_URL } from '../config';
 
 export const Login: React.FC = () => {
   const { login } = useAuth();
@@ -49,7 +50,7 @@ export const Login: React.FC = () => {
         ? { email, password } 
         : { email, password, name, role };
 
-      const response = await fetch(`http://localhost:5000${endpoint}`, {
+      const response = await fetch(`${API_BASE_URL}${endpoint}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(body)

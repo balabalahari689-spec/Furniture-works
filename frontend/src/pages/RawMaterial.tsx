@@ -55,7 +55,7 @@ export const RawMaterial: React.FC = () => {
   const fetchInventory = async () => {
     if (!token) return;
     try {
-      const response = await fetch('http://localhost:5000/api/inventory', {
+      const response = await fetch('${API_BASE_URL}/api/inventory', {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (response.ok) {
@@ -82,7 +82,7 @@ export const RawMaterial: React.FC = () => {
 
     setIsSaving(true);
     try {
-      const response = await fetch('http://localhost:5000/api/inventory', {
+      const response = await fetch('${API_BASE_URL}/api/inventory', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -136,7 +136,7 @@ export const RawMaterial: React.FC = () => {
 
     setIsAdjusting(true);
     try {
-      const response = await fetch(`http://localhost:5000/api/inventory/${activeItem.id}`, {
+      const response = await fetch(`${API_BASE_URL}/api/inventory/${activeItem.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

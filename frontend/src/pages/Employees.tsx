@@ -40,7 +40,7 @@ export const Employees: React.FC = () => {
   const fetchEmployees = async () => {
     if (!token) return;
     try {
-      const response = await fetch('http://localhost:5000/api/employees', {
+      const response = await fetch('${API_BASE_URL}/api/employees', {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (response.ok) {
@@ -71,7 +71,7 @@ export const Employees: React.FC = () => {
 
     setIsSaving(true);
     try {
-      const response = await fetch(`http://localhost:5000/api/employees/${selectedEmp.id}`, {
+      const response = await fetch(`${API_BASE_URL}/api/employees/${selectedEmp.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

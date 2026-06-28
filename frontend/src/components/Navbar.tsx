@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import { API_BASE_URL } from '../config';
 import {
   Bell,
   Sun,
@@ -48,7 +49,7 @@ export const Navbar: React.FC<NavbarProps> = ({ sidebarCollapsed, toggleSidebar 
     if (!token) return;
     setSearchLoading(true);
     try {
-      const response = await fetch('http://localhost:5000/api/orders', {
+      const response = await fetch(`${API_BASE_URL}/api/orders`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (response.ok) {
@@ -166,7 +167,7 @@ export const Navbar: React.FC<NavbarProps> = ({ sidebarCollapsed, toggleSidebar 
   const fetchNotifications = async () => {
     if (!token) return;
     try {
-      const response = await fetch('http://localhost:5000/api/notifications', {
+      const response = await fetch(`${API_BASE_URL}/api/notifications`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (response.ok) {
@@ -186,7 +187,7 @@ export const Navbar: React.FC<NavbarProps> = ({ sidebarCollapsed, toggleSidebar 
 
   const markAsRead = async (id: string) => {
     try {
-      const response = await fetch(`http://localhost:5000/api/notifications/${id}/read`, {
+      const response = await fetch(`${API_BASE_URL}/api/notifications/${id}/read`, {
         method: 'PUT',
         headers: { Authorization: `Bearer ${token}` }
       });
@@ -202,7 +203,7 @@ export const Navbar: React.FC<NavbarProps> = ({ sidebarCollapsed, toggleSidebar 
 
   const markAllAsRead = async () => {
     try {
-      const response = await fetch('http://localhost:5000/api/notifications/read-all', {
+      const response = await fetch(`${API_BASE_URL}/api/notifications/read-all`, {
         method: 'PUT',
         headers: { Authorization: `Bearer ${token}` }
       });

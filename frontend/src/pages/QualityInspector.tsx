@@ -42,7 +42,7 @@ export const QualityInspector: React.FC = () => {
   const fetchQAOrders = async () => {
     if (!token) return;
     try {
-      const response = await fetch('http://localhost:5000/api/orders', {
+      const response = await fetch('${API_BASE_URL}/api/orders', {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (response.ok) {
@@ -94,7 +94,7 @@ export const QualityInspector: React.FC = () => {
       // 1. Submit stage update to /api/workflow/stage/:id
       // If passed, stage status = COMPLETED, completionPercentage = 100
       // If failed, stage status = DELAYED, delayIndicator = true
-      const response = await fetch(`http://localhost:5000/api/workflow/stage/${qcStage.id}`, {
+      const response = await fetch(`${API_BASE_URL}/api/workflow/stage/${qcStage.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -112,7 +112,7 @@ export const QualityInspector: React.FC = () => {
 
       if (response.ok) {
         // Create custom notification for inspection
-        await fetch('http://localhost:5000/api/notifications', {
+        await fetch('${API_BASE_URL}/api/notifications', {
           method: 'POST', // Simulation route inside notifications
           headers: {
             'Content-Type': 'application/json',

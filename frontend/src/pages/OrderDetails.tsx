@@ -78,7 +78,7 @@ export const OrderDetails: React.FC = () => {
   const fetchOrderDetails = async () => {
     if (!token || !id) return;
     try {
-      const response = await fetch(`http://localhost:5000/api/orders/${id}`, {
+      const response = await fetch(`${API_BASE_URL}/api/orders/${id}`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (response.ok) {
@@ -111,7 +111,7 @@ export const OrderDetails: React.FC = () => {
 
     setIsUpdating(true);
     try {
-      const response = await fetch(`http://localhost:5000/api/workflow/stage/${activeStage.id}`, {
+      const response = await fetch(`${API_BASE_URL}/api/workflow/stage/${activeStage.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

@@ -105,7 +105,7 @@ export const Kanban: React.FC = () => {
   const fetchOrders = async () => {
     if (!token) return;
     try {
-      const response = await fetch('http://localhost:5000/api/workflow/kanban', {
+      const response = await fetch('${API_BASE_URL}/api/workflow/kanban', {
         headers: { Authorization: `Bearer ${token}` }
       });
       if (response.ok) {
@@ -153,7 +153,7 @@ export const Kanban: React.FC = () => {
     );
 
     try {
-      const response = await fetch(`http://localhost:5000/api/orders/${orderId}`, {
+      const response = await fetch(`${API_BASE_URL}/api/orders/${orderId}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
